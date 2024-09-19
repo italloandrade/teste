@@ -1,0 +1,160 @@
+package trabalho;
+
+public class Usuario {
+
+	private int id;
+	private String nome;
+	private String email;
+	private int telefone;
+	
+	public Usuario(int id, String nome, String email, int telefone) {
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.telefone = telefone;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id= " + id + ", nome= " + nome + ", email= " + email + ", telefone= " + telefone + "]";
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(int telefone) {
+		this.telefone = telefone;
+	}
+
+}
+
+
+
+
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+class UsuarioCRUD {
+    private List<Usuario> usuarios = new ArrayList<>();
+    private int proximoId = 1;
+
+    // Criar
+    
+    public Usuario criarUsuario(String nome, String email, int telefone) {
+        Usuario usuario = new Usuario(proximoId++, nome, email, telefone);
+        usuarios.add(usuario);
+        return usuario;
+    }
+
+    // Ler
+    
+    public List<Usuario> listarUsuarios() {
+        return usuarios;
+    }
+
+    public Usuario lerUsuario(int id) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == id) {
+                return usuario;
+            }
+        }
+        return null; // Usuário não encontrado
+    }
+
+    // Atualizar
+    
+    public boolean atualizarUsuario(int id, String novoNome, String novoEmail) {
+        Usuario usuario = lerUsuario(id);
+        if (usuario != null) {
+            usuario.setNome(novoNome);
+            usuario.setEmail(novoEmail);
+            return true;
+        }
+        return false;
+    }
+
+    // Deletar
+    
+    public boolean deletarUsuario(int id) {
+        Usuario usuario = lerUsuario(id);
+        if (usuario != null) {
+            usuarios.remove(usuario);
+            return true;
+        }
+        return false;
+    }
+}
+
+
+
+
+
+
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		UsuarioCRUD usuarioCRUD = new UsuarioCRUD();
+
+        // Criar usuários
+		
+        usuarioCRUD.criarUsuario("Itallo", "italloam123@gmail.com", 998195119);
+       
+
+        // Listar usuários
+        
+        System.out.println("Usuários: ");
+        for (Usuario usuario : usuarioCRUD.listarUsuarios()) {
+            System.out.println(usuario);
+        }
+
+        // Atualizar usuário
+        
+        usuarioCRUD.atualizarUsuario(1, "Itallo Andrade", "italloam123@gmail.com");
+
+        // Ler usuário específico
+        
+        System.out.println("Usuário com ID 1: " + usuarioCRUD.lerUsuario(1));
+
+        // Deletar usuário
+        
+        usuarioCRUD.deletarUsuario(2);
+
+        // Listar usuários após deletar
+        
+        System.out.println("Usuários após deletar:");
+        for (Usuario usuario : usuarioCRUD.listarUsuarios()) {
+            System.out.println(usuario);
+        }
+    }
+}
+

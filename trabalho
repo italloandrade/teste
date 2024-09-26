@@ -1,0 +1,44 @@
+package service;
+
+import model.Usuario;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.spi.ToolProvider.findFirst;
+
+public class UsuarioService {
+    private List<Usuario> usuarios;
+
+    public UsuarioService(){
+        this.usuarios = new ArrayList<>();
+    }
+    public void adicionarUsuario(Usuario usuario){
+        usuarios.add(usuario);
+    }
+
+    public List<Usuario> consultarTodos(){
+        return usuarios;
+    }
+
+    public Optional<Usuario> consultarPorCpf(String cpf) {
+        return usuarios.stream()
+                .filter(usuario -> usuario.getCpf().equals(cpf))
+                .findFirst();
+    }
+    public Optional<Usuario> consultarPorEmail(String email) {
+        return usuarios.stream()
+                .filter(usuario -> usuario.getEmail().equals(email))
+                .findFirst();
+    }
+
+    public void removerUsuarioPorCpf(String cpf) {
+        consultarPorCpf(cpf).ifPresent(usuarios::remove);
+    }
+
+    public void removerUsuarioPorEmail(String email) {
+        consultarPorEmail(email).ifPresent(usuarios::remove);
+    }
+}
+
